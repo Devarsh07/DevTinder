@@ -1,0 +1,2 @@
+1) Ek middleware se dusre middleware jane ke liye humein next() function ko call karna hi padega.
+2)If we use multiple Request Handlers in a single Middleware/routes then we have only send a response from one of the request handlers , we cant able to send multiple responses from the single middleware
