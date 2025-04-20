@@ -1,2 +1,9 @@
 1) Ek middleware se dusre middleware jane ke liye humein next() function ko call karna hi padega.
-2)If we use multiple Request Handlers in a single Middleware/routes then we have only send a response from one of the request handlers , we cant able to send multiple responses from the single middleware
+2)If we use multiple Request Handlers in a single Middleware/routes then we have only send a response from one of the request handlers , we cant able to send multiple responses from the single middleware.
+3) app.use("/route",rH1,rH2,rH3,rH4);
+4)we can make array of any one , two , three or all in one array like and all give same results , below;
+app.use("/route",rH1,[rH2,rH3],rH4) --(i)
+app.use("/route",rH1,rH2,rH3,[rH4]) --(ii)
+app.use("/route",[rH1,rH2,rH3,rH4]) --(iii)
+
+here i,ii,iii all are giveing the same responses/results.
