@@ -7,3 +7,10 @@ app.use("/route",rH1,rH2,rH3,[rH4]) --(ii)
 app.use("/route",[rH1,rH2,rH3,rH4]) --(iii)
 
 here i,ii,iii all are giveing the same responses/results.
+
+5)what is Middleware? is a funtion which perform any changes or action on the comming requests through a callback function.
+6)What is Middlewares? Middlewares is chain of callback function(one after the other) which performs some changes on the requests comming from the client,
+ - and after completeion of all functions the last callback functions sending the response . 
+ And this last or the any one which send the respond is called the request handler function.
+7)Request Handler function is the function which handled the request and then send the response as per the request received.
+8) jahaan bhi request mein changes ho rhe hai or jahaan bhi next() samajh le wo middleware hai.
