@@ -27,3 +27,8 @@ i)first as we know app.use("/",()=>{}) always run bcoz of it a wild card any rou
  - chalega , ok
 ii)by using the try and catch block , jo bhi karna hai wo try mein likho and then catch karo err aur fir message or jo bhi karna-
  - karna chahte ho wo kardo, ok
+13)suppose humne apna server run karwaya and uske baad hi database connection karwaya now think ki there is something happen shit-
+ - jiske wajah se database to connect nhi ho paaya but server run hogya aur tumne ye notice bhi nhi kiya kyunki tumne dekha server to run ho gya chlo ab site par kaam karte hai-
+- but ab tumhare site par multiple api's ki call ho rhi but wo saari call err show ho ri due to connection failed in database-
+- now suppose ye api's call thousands mein ho to ye bahot hi bad hoga tumhare site ke liye and tumhare market mein banayi hui ijjat ke liye bhi-
+-thats why hum ye sure karte hai pehle database connect ho jaaye and then server run ho ok.
