@@ -18,4 +18,12 @@ here i,ii,iii all are giveing the same responses/results.
  - its only checked the route used in app.use middleware.But in case of app.all the incomming routes must be same as route used-
  - in the app.all , aur ye dono hi all type of incomming request ko support karte hai bhale hi wo GET,PUT,PATCH ... ok.
 10)adding the userAuth middleware only in /user/data Request Handler , bcoz the /user/login Request handler dont have to check -
- - that which user is authrized or not bcoz anybody can login to websites ok
+ - that which user is authrized or not bcoz anybody can login to websites ok.
+11) we cannot track en err above the err creation line since the js run line by line and also it is an single threaded , so-
+ - only after the err created we can only track it or display its message ok.
+12)Here we can track/catch the err or displaying the err by two methods like ,
+i)first as we know app.use("/",()=>{}) always run bcoz of it a wild card any route must have "/" so its matches directly and-
+ - run this wildcard request handler directly now since it matches and run directly so , ismein hum jo bhi likhenge wo humesha-
+ - chalega , ok
+ii)by using the try and catch block , jo bhi karna hai wo try mein likho and then catch karo err aur fir message or jo bhi karna-
+ - karna chahte ho wo kardo, ok

@@ -3,17 +3,15 @@ const app = express();
 const {adminAuth,userAuth}= require("./middlewares/auth");
 
 app.get("/user",(req,res,next)=>{
-    throw new Error("This is an user error");//anything written below the err will not be executed
-    console.log("User route is working");
-    res.send("User route is working");
-});
-
-//catching the err by using wildcard route handler also called a middleware:
-app.use("/",(err,req,res,next)=>{
-    if(err){
-        res.status(500).send("Something wrong happened in user route");
+    try{
+        throw new Error("Error is created!");
+        res.send("user route is working!");//any line below the error line will not be executed
     }
-})
+    catch(err){
+        console.log("Error is handled in the catch block!");
+        res.status(500).send("Error is handled in the catch block!");
+    }
+});
 
 
 app.listen(7777,() => {
