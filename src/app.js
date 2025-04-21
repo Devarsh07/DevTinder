@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const {adminAuth,userAuth}= require("./middlewares/auth");
+require("./config/database");
 
 app.get("/user",(req,res,next)=>{
     try{
