@@ -7,19 +7,20 @@ app.use("/user",(req,res,next)=>{//app.use take any request from the route match
     console.log("Entry level 1 and the first changes happen to the request object");
     next();//this is the most important line in the middleware, if we don't call next() then the request will not go to the next middleware and it will be stuck here.
 })
-app.get("/user",(req,res,next)=>{
-    console.log("Entry level 2 and the second changes happen to the request object");
+app.get("/user",(req,res,next)=>{//this is the chain of middlewares which changes the request and at last send the response to the client.
+    console.log("Do anything with the request");
     next();
-})
-app.get("/user",(req,res,next)=>{
-    console.log("Entry level 3 and the third changes happen to the request object");
+},
+(req,res,next)=>{
+    console.log("Do anything with your request again");
     next();
-})
-app.get("/user",(req,res,next)=>{
-    console.log("Entry level 4 and the fourth changes happen to the request object");
-    res.send("After performing all the changes on the request by above middlewares, we are sending the response to the client");
-    next();//it not gives an err while there is no any next middleware but it is not a good practice to use next() in the last middleware, because it will be confusing for the other developers who will read your code.
-})
+},
+(req,res,next)=>{
+    console.log("Do anything with your request again and again");
+    res.send("Afetr making all the changes to request here is the response to the client");
+    next();
+}
+)
 
 
 app.listen(7777,() => {
