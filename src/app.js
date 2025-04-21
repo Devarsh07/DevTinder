@@ -1,32 +1,18 @@
 const express = require('express');
 const app = express();
 const {adminAuth,userAuth}= require("./middlewares/auth");
-//Handling the request from the port 7777 By request Handlers Middlewares always must remember using of Middleware orders matters;
 
-//Steps which are followed:
-//1)pehle hum check karenge ki /admin authorized hai ya nhi,
-//2)fir hum koi bhi action karsakenge through admin after checking that it is an admin.
+app.get("/user",(req,res,next)=>{
+    throw new Error("This is an user error");//anything written below the err will not be executed
+    console.log("User route is working");
+    res.send("User route is working");
+});
 
-
-app.use("/admin",adminAuth);
-
-app.post("/user/login",(req,res,next)=>{//we dont have to authenticate for login coz anybody can login;
-    res.send("You are logged in!");
-    next();
-})
-
-app.get("/user/data",userAuth,(req,res,next)=>{//here we have to check that the data sent by the authorized user or not
-    res.send("User data is sent!");
-    next();
-})
-
-app.get("/admin/getAllData",(req,res,next)=>{
-    res.send("All data sent !");
-    next();
-})
-app.get("/admin/deleteAllData",(req,res,next)=>{//this middlewares delete the all the data after getting an api to delete all the data
-    res.send("All data is deleted !");
-    next();
+//catching the err by using wildcard route handler also called a middleware:
+app.use("/",(err,req,res,next)=>{
+    if(err){
+        res.status(500).send("Something wrong happened in user route");
+    }
 })
 
 
