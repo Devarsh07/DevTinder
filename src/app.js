@@ -3,24 +3,32 @@ const app = express();
 
 //Handling the request from the port 7777 By request Handlers Middlewares always must remember using of Middleware orders matters;
 
-app.use("/user",(req,res,next)=>{//app.use take any request from the route matching /user while it is get or put , patch , delete ok
-    console.log("Entry level 1 and the first changes happen to the request object");
-    next();//this is the most important line in the middleware, if we don't call next() then the request will not go to the next middleware and it will be stuck here.
+//Steps which are followed:
+//1)pehle hum check karenge ki /admin authorized hai ya nhi,
+//2)fir hum koi bhi action karsakenge through admin after checking that it is an admin.
+
+
+
+app.use("/admin",(req,res,next)=>{//authorization checking
+    const token = "xyz"
+    const isAuthorized = token === "xyz";
+    if(!isAuthorized){
+        res.status(401).send("You are unauthorized");
+    }
+    else{
+        console.log("You are authorized to do admin works!");
+        next();//if it was an admin then call to next middlewares for action 
+    }
 })
-app.get("/user",(req,res,next)=>{//this is the chain of middlewares which changes the request and at last send the response to the client.
-    console.log("Do anything with the request");
+
+app.get("/admin/data",(req,res,next)=>{
+    res.send("All data sent !");
     next();
-},
-(req,res,next)=>{
-    console.log("Do anything with your request again");
+})
+app.get("/admin/delete",(req,res,next)=>{//this middlewares delete the all the data after getting an api to delete all the data
+    res.send("All data is deleted !");
     next();
-},
-(req,res,next)=>{
-    console.log("Do anything with your request again and again");
-    res.send("Afetr making all the changes to request here is the response to the client");
-    next();
-}
-)
+})
 
 
 app.listen(7777,() => {

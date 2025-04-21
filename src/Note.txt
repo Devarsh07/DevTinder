@@ -14,3 +14,7 @@ here i,ii,iii all are giveing the same responses/results.
  And this last or the any one which send the respond is called the request handler function.
 7)Request Handler function is the function which handled the request and then send the response as per the request received.
 8) jahaan bhi request mein changes ho rhe hai or jahaan bhi next() samajh le wo middleware hai.
+9)when we use app.use for middleware/route handler it mean its checked the given route only while the route has some sub routes-
+ - its only checked the route used in app.use middleware.But in case of app.all the incomming routes must be same as route used-
+ - in the app.all , aur ye dono hi all type of incomming request ko support karte hai bhale hi wo GET,PUT,PATCH ... ok.
+
