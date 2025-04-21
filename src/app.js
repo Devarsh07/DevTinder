@@ -9,14 +9,13 @@ const {adminAuth,userAuth}= require("./middlewares/auth");
 
 
 app.use("/admin",adminAuth);
-app.use("/user",userAuth);
 
 app.post("/user/login",(req,res,next)=>{//we dont have to authenticate for login coz anybody can login;
     res.send("You are logged in!");
     next();
 })
 
-app.get("/user/data",(req,res,next)=>{//here we have to check that the data sent by the authorized user or not
+app.get("/user/data",userAuth,(req,res,next)=>{//here we have to check that the data sent by the authorized user or not
     res.send("User data is sent!");
     next();
 })

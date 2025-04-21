@@ -17,4 +17,5 @@ here i,ii,iii all are giveing the same responses/results.
 9)when we use app.use for middleware/route handler it mean its checked the given route only while the route has some sub routes-
  - its only checked the route used in app.use middleware.But in case of app.all the incomming routes must be same as route used-
  - in the app.all , aur ye dono hi all type of incomming request ko support karte hai bhale hi wo GET,PUT,PATCH ... ok.
-
+10)adding the userAuth middleware only in /user/data Request Handler , bcoz the /user/login Request handler dont have to check -
+ - that which user is authrized or not bcoz anybody can login to websites ok
