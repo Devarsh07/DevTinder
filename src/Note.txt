@@ -32,3 +32,7 @@ ii)by using the try and catch block , jo bhi karna hai wo try mein likho and the
 - but ab tumhare site par multiple api's ki call ho rhi but wo saari call err show ho ri due to connection failed in database-
 - now suppose ye api's call thousands mein ho to ye bahot hi bad hoga tumhare site ke liye and tumhare market mein banayi hui ijjat ke liye bhi-
 -thats why hum ye sure karte hai pehle database connect ho jaaye and then server run ho ok.
+14)whenever you are doing some DB operations must write the code in Try And catch block bcoz DB operations take some time or it may gives err and that err must ba catched ok.
+15)We are converting the Schema in the model bcoz we have to create and update or do many operations on collections and that done by model of mongoDB-
+- suppose there is a collection user and in this user there is one document in user so when i want to create one or more document based on the previous schema so -
+- we have to create an instance of the Model and apply all the DB operation on this.
