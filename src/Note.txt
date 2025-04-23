@@ -55,3 +55,5 @@ yehi exactly express.json() ka kaam hai.
 
 Note: conditions is optional, and if conditions is null or undefined, mongoose will send an empty findOne command to MongoDB, which will return an arbitrary document. If you're querying by _id, use findById() instead.
 
+24) after performing operation of mongoDB on model User like find(),findById(),findOne()...etc all return array of Javascript Objects ok.
+and in findById()  not take by object like {id} it only takes simple id , ok

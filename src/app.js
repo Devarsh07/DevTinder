@@ -60,3 +60,19 @@ app.get("/allUser",async (req,res,next)=>{
     }
 
 });
+
+app.get("/byId",async(req,res,next)=>{
+    const id = req.body._id;
+    try{
+        const user = await User.findById(id);
+        if(id.length === 0){
+            res.send("No any id is found of this type");
+        }
+        else{
+            res.send(user);
+        }
+    }catch(err){
+        res.status(401).send("Something went wrong to find the user by id and the err is"+ err.message);
+    }
+    
+});
