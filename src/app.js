@@ -32,7 +32,7 @@ app.post("/signUp",async(req,res,next)=>{
 });
 
 app.get("/user",async (req,res,next)=>{
-    const userEmail = req.body.email;//here extracting the email from req.body which are passing from postman
+    const userEmail = req.body.gmail;//here extracting the email from req.body which are passing from postman
     try{
         const user = await User.find({email : userEmail});// here we are  finding the same "userEmail" from the field name "email" in Model called User
         if(user.length === 0){
@@ -62,17 +62,33 @@ app.get("/allUser",async (req,res,next)=>{
 });
 
 app.get("/byId",async(req,res,next)=>{
-    const id = req.body._id;
+    const id = req.body._id;//must remember this "_id" chahe jo ho but jo tum req.body mein from frontend bhej rhe ho wahi hona chahiye not neccessary ki wo schema jaisa hi ho , ok
     try{
         const user = await User.findById(id);
-        if(id.length === 0){
+        if(user.length === 0){
             res.send("No any id is found of this type");
         }
         else{
             res.send(user);
         }
     }catch(err){
-        res.status(401).send("Something went wrong to find the user by id and the err is"+ err.message);
+        res.status(401).send("Something went wrong to find the user by id and the err is" + err.message);
     }
     
 });
+
+app.delete("/delete",async (req,res,next)=>{
+    const id = req.body._id;
+    try{
+        const user = await User.findById(id);
+        if(!user){
+            res.send("User of this id does not exist !");
+        }
+        else{
+            await User.findByIdAndDelete(id);
+            res.send("User deleted successfully");
+        }
+    }catch(err){
+        res.status(401).send("Something Went Wrong i.e "+ err.message);
+    }
+})

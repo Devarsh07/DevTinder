@@ -57,3 +57,4 @@ Note: conditions is optional, and if conditions is null or undefined, mongoose w
 
 24) after performing operation of mongoDB on model User like find(),findById(),findOne()...etc all return array of Javascript Objects ok.
 and in findById()  not take by object like {id} it only takes simple id , ok
+25)if user of id is not present in database then all the query related to id's i.e findById(),findByIdAndDelete() ... are return null value ok.
