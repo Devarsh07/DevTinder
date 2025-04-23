@@ -44,3 +44,14 @@ yehi exactly express.json() ka kaam hai.
 20)whenevr we hit the route or call the api express got a req(request) and this request is in js object that is serve by express to us for our works.-
 - and this request also got a request.body which is undefined for the express bcoz of express is unable to req.body in json string , and this req.body is in json string thats why-
 - we use a middleware for conversion of json string to json object ok.so after using this middleware we have javascript object data in our req.body and previously req.body have data but it was undefined fro the express.
+21)we use POST AND PUT to Update Or Create a data in database , but we can do these both things with also the help of GET-
+- here what i want to say that , Ye post,put,get sirf operations mein kya difference hai ye batane ke liye banaye gye hai-
+- suppose tum postman se ye POST api call kar rhe with json data in body ok now you must  handle this api with POST request handler of same Route-
+- and this api will create a user document in users collection in you database , but you can do all these things with also use of  GET method-
+- ab postman mein bhi tumhe GET se call karna with same api and , request handler bhi GET ka ho aur baaki sab like  code for extracting-
+- body from req and save it to user document all are same. aur tumhara user create or update ho jayega from GET method also.ok
+22)User.find({ email: "devarsh@gmail.com" }) means find all the documents in the users collection which have the email field value = "devarsh@gmail.com", ok
+23)The conditions are cast to their respective SchemaTypes before the command is sent.
+
+Note: conditions is optional, and if conditions is null or undefined, mongoose will send an empty findOne command to MongoDB, which will return an arbitrary document. If you're querying by _id, use findById() instead.
+

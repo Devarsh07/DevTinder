@@ -17,6 +17,7 @@ connectDB()
     .catch((err)=>{
         console.log("MongoDB Connection ERror!");
     });
+
 app.post("/signUp",async(req,res,next)=>{
     
     //here req.body have a data in json format which was converted to js object by above middleware and it was pass by postman by post method
@@ -28,4 +29,34 @@ app.post("/signUp",async(req,res,next)=>{
     }catch(err){
         res.status(400).send("There is a problem in updating the database i.e "+ err.message);
     }
+});
+
+app.get("/user",async (req,res,next)=>{
+    const userEmail = req.body.email;//here extracting the email from req.body which are passing from postman
+    try{
+        const user = await User.find({email : userEmail});// here we are  finding the same "userEmail" from the field name "email" in Model called User
+        if(user.length === 0){
+            res.send("No any user found");
+        }
+        else{
+            res.send(user);
+        }
+    }catch(err){
+        res.status(401).send("Something went wrong to find the user!");
+    }
+});
+
+app.get("/allUser",async (req,res,next)=>{
+    try{
+        const user = await User.find({});
+        if(user.length === 0){
+            res.send("No any user found");
+        }
+        else{
+            res.send(user);
+        }
+    }catch(err){
+        res.status(401).send("Something went wrong to find the user!");
+    }
+
 });
