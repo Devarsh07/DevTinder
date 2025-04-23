@@ -36,3 +36,11 @@ ii)by using the try and catch block , jo bhi karna hai wo try mein likho and the
 15)We are converting the Schema in the model bcoz we have to create and update or do many operations on collections and that done by model of mongoDB-
 - suppose there is a collection user and in this user there is one document in user so when i want to create one or more document based on the previous schema so -
 - we have to create an instance of the Model and apply all the DB operation on this.
+16)Models are fancy constructors compiled from Schema definitions. An instance of a model is called a document. Models are responsible for creating and reading documents from the underlying MongoDB database.
+17)Model name "user" → Collection name "users" ok
+18)"Express by default can't read the raw JSON string in the request body. That's why we use express.json() middleware — it parses the JSON string and converts it into a JavaScript object, which we can then access via req.body."
+19)"Jo bhi request ke body mein JSON string data hai, wo JSON string data ko JavaScript object mein badalkar wapas req.body mein daal dega, and then we can fetch it using req.body" —
+yehi exactly express.json() ka kaam hai.
+20)whenevr we hit the route or call the api express got a req(request) and this request is in js object that is serve by express to us for our works.-
+- and this request also got a request.body which is undefined for the express bcoz of express is unable to req.body in json string , and this req.body is in json string thats why-
+- we use a middleware for conversion of json string to json object ok.so after using this middleware we have javascript object data in our req.body and previously req.body have data but it was undefined fro the express.

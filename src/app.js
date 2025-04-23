@@ -4,7 +4,6 @@ const {adminAuth,userAuth}= require("./middlewares/auth");
 const connectDB = require("./config/database");
 const User = require("./models/user");
 
-
 //since as we telling above that this function return promise so, we have to handled the value returned from promised function by then and catch
 connectDB()
     .then(() =>{
@@ -16,18 +15,18 @@ connectDB()
     .catch((err)=>{
         console.log("MongoDB Connection ERror!");
     });
-app.post("/signUp",async (req,res,next)=>{
+app.post("/signUp", async(req,res,next)=>{
     const userObj = {
-        firstName : "Hardik",
-        lastName : "Pandya",
-        email : "hardik@pandya.com",
+        firstName : "lashkare",
+        lastName : "Taliban",
+        email : "lashkare@taliban.com",
         password : "12345",
         age : 21,
-        gender : "Male",
+        gender : "Not defined",
         // _id : 12345675432345633565, always try to dont crerate an id lets take mogoDB create itself
     }
     
-    const user = new User(userObj);
+    const user = new User(userObj);//here the instance we have created named user is the new document with these fields.
     try{
         await user.save();
         res.send("Database Updated Successfully");    
