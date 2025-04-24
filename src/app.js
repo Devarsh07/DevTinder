@@ -91,7 +91,7 @@ app.delete("/delete",async (req,res,next)=>{
     }catch(err){
         res.status(401).send("Something Went Wrong i.e "+ err.message);
     }
-})
+});
 app.patch("/update",async (req,res,next)=>{
     const id = req.body.id;
     const data = req.body.firstName;
@@ -100,5 +100,18 @@ app.patch("/update",async (req,res,next)=>{
         res.send("Updated Successfully");
     }catch(err){
         res.status(401).send("Something Something i.e "+ err.message);
+    }
+});
+
+//update anything yoou want :
+app.patch("/updateAny",async (req,res,next)=>{
+    const id = req.body.id;
+    const updates = req.body;
+    delete updates.id;
+    try{
+        await User.findByIdAndUpdate(id,updates,{new:true});
+        res.send("Updated successfully");
+    }catch(err){
+        res.status(401).send("Update is not possible and the err is "+err.message);
     }
 })
