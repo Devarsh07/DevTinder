@@ -65,7 +65,7 @@ app.get("/byId",async(req,res,next)=>{
     const id = req.body._id;//must remember this "_id" chahe jo ho but jo tum req.body mein from frontend bhej rhe ho wahi hona chahiye not neccessary ki wo schema jaisa hi ho , ok
     try{
         const user = await User.findById(id);
-        if(user.length === 0){
+        if(!user){
             res.send("No any id is found of this type");
         }
         else{
@@ -90,5 +90,15 @@ app.delete("/delete",async (req,res,next)=>{
         }
     }catch(err){
         res.status(401).send("Something Went Wrong i.e "+ err.message);
+    }
+})
+app.patch("/update",async (req,res,next)=>{
+    const id = req.body.id;
+    const data = req.body.firstName;
+    try{
+        await User.findByIdAndUpdate(id,{firstName:data});
+        res.send("Updated Successfully");
+    }catch(err){
+        res.status(401).send("Something Something i.e "+ err.message);
     }
 })
