@@ -115,3 +115,14 @@ app.patch("/updateAny",async (req,res,next)=>{
         res.status(401).send("Update is not possible and the err is "+err.message);
     }
 })
+
+app.patch("/updateByEmail",async (req,res,next)=>{
+    const email = req.body.email;
+    const updates = req.body;
+    try{
+        await User.findOneAndUpdate({email:email},updates,{new:true});
+        res.send("Updates successfully");
+    }catch(err){
+        res.status(401).res("Something wrong and the error is "+err.message);
+    }
+})

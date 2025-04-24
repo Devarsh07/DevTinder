@@ -60,3 +60,6 @@ and in findById()  not take by object like {id} it only takes simple id , ok
 25)if user of id is not present in database then all the query related to id's i.e findById(),findByIdAndDelete() ... are return null value ok.
 26)any other field that you are passing from frontend but it was not in you real schema in backend then this not show any err-
 - it directly ignored by mongodb.
+27)✅ You can update any field except _id.
+❌ _id cannot be updated using .findByIdAndUpdate() or any update operation.
+28)learn about mongoose>API>model i.e,all queries ok
