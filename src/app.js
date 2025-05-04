@@ -109,7 +109,16 @@ app.patch("/updateAny",async (req,res,next)=>{
     const updates = req.body;
     delete updates.id;
     try{
-        await User.findByIdAndUpdate(id,updates,{new:true});
+        //creating an api level validations:
+        const ALLOWED_UPDATES = ["photUrl","gender","firstName","lastName","about"];//maine define kardi ki kaun kaun si cheeje update karni hai
+        const isUpdateAllowed = Object.keys(updates).every((k)=>//fir updates mein unhi chijon ko update karo jo aalowed_updates mein hai
+        ALLOWED_UPDATES.includes(k)); 
+
+        if(!isUpdateAllowed){
+            throw new Error("Updates failed please change your fields!");
+        }
+    
+        await User.findByIdAndUpdate(id,updates,{new:true},{runValidators:true});
         res.send("Updated successfully");
     }catch(err){
         res.status(401).send("Update is not possible and the err is "+err.message);

@@ -68,3 +68,5 @@ but it make to run when we do any other query of dbms like find or findById etc 
 30)we have to make a validators for the updation of any already made field like changing name or password and ye jaroori isliye hai
 -kyunnki update to waise bhi ho jayega but jo conditions the field valid banane ke wo-
 -to sirf validators hi chla sakta hai ok.
+31)as we know humein kuch field change karne par rok lagani chahiye nhi to humaara db crash kar jayega or something bad will happen-
+- thats why we do API level validation like dont make a user to change its email once it was filled ok. lets see in app.js

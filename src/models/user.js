@@ -6,12 +6,12 @@ const userSchema = new mongoose.Schema({
     firstName : {
         type : String,
         required:true,
-        max:25,
-        min:3,
+        maxLength:25,
+        minLength:3,
         //update ke time par ye max min kaam nhi karta to isilye hum ek validators banyenge ok
         validate:{
             validator:function(value){
-                if(value.length()<3 || value.length()>25){
+                if(value.length<3 || value.length>25){
                     throw new Error(("This is of firstName is wrong"));
                 }
             }
