@@ -5,6 +5,7 @@ const connectDB = require("./config/database");
 const User = require("./models/user");
 const {validateSignUpData} = require('./utils/validation');
 const bcrypt = require('bcrypt');
+const validator = require('validator');
 
 app.use(express.json())//parsing the json data to js object
 
@@ -33,7 +34,7 @@ connectDB()
 //     }
 // });
 
-app.use("/signUp",async(req,res,next)=>{
+app.post("/signUp",async(req,res,next)=>{
     const {firstName,lastName,email,password} = req.body;
 
     try{
@@ -56,6 +57,32 @@ app.use("/signUp",async(req,res,next)=>{
     }                                                               
     
     //
+});
+
+app.post("/login",async(req,res,next)=>{
+    try{
+        const {email,password} = req.body;
+        if(!validator.isEmail(email)){
+            throw new Error("Email is invalid!");
+        }
+        const user = await User.findOne({email : email});
+
+        if(!user){
+            throw new Error("User is not present in DB!");
+        }
+        const isPasswordValid = await bcrypt.compare(password,user.password);
+        console.log(password);
+        console.log(user.password);
+        
+        if(isPasswordValid){
+            res.send("Login Successfully!");
+        }
+        else{
+            throw new Error("Invalid user email and Password!");
+        }
+    }catch(err){
+        res.status(400).send("Error: "+err.message);
+    }
 });
 
 app.get("/user",async (req,res,next)=>{
