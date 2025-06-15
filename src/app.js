@@ -3,6 +3,8 @@ const app = express();
 const {adminAuth,userAuth}= require("./middlewares/auth");
 const connectDB = require("./config/database");
 const User = require("./models/user");
+const {validateSignUpData} = require('./utils/validation');
+const bcrypt = require('bcrypt');
 
 app.use(express.json())//parsing the json data to js object
 
@@ -18,21 +20,46 @@ connectDB()
         console.log("MongoDB Connection ERror!");
     });
 
-app.post("/signUp",async(req,res,next)=>{
+// app.post("/signUp",async(req,res,next)=>{
     
-    //here req.body have a data in json format which was converted to js object by above middleware and it was pass by postman by post method
-    const user = new User(req.body);//here the instance we have created named user is the new document with these fields.
+//     //here req.body have a data in json format which was converted to js object by above middleware and it was pass by postman by post method
+//     const user = new User(req.body);//here the instance we have created named user is the new document with these fields.
+
+//     try{
+//         await user.save();
+//         res.send("Database Updated Successfully");    
+//     }catch(err){
+//         res.status(400).send("There is a problem in updating the database i.e "+ err.message);
+//     }
+// });
+
+app.use("/signUp",async(req,res,next)=>{
+    const {firstName,lastName,email,password} = req.body;
 
     try{
-        await user.save();
-        res.send("Database Updated Successfully");    
+        //Validation of data:
+        validateSignUpData(req);
+
+        //encryption of password:
+        const passwordHash = await bcrypt.hash(password,10);//10 is the salting layer i.e it represent that how much layer of encription will be provided to my password:
+
+        const user = new User({
+            firstName,
+            lastName,
+            email,
+            password:passwordHash
+        });
+    await user.save();
+        res.send("User added succesfully!");
     }catch(err){
-        res.status(400).send("There is a problem in updating the database i.e "+ err.message);
-    }
+        res.status(400).send("Error saving the user: "+err.message);
+    }                                                               
+    
+    //
 });
 
 app.get("/user",async (req,res,next)=>{
-    const userEmail = req.body.gmail;//here extracting the email from req.body which are passing from postman
+    const userEmail = req.body.email;//here extracting the email from req.body which are passing from postman
     try{
         const user = await User.find({email : userEmail});// here we are  finding the same "userEmail" from the field name "email" in Model called User
         if(user.length === 0){
@@ -80,7 +107,7 @@ app.get("/byId",async(req,res,next)=>{
 app.delete("/delete",async (req,res,next)=>{
     const id = req.body._id;
     try{
-        const user = await User.findById(id);
+        const user = await User.findById(id);                   
         if(!user){
             res.send("User of this id does not exist !");
         }
@@ -111,14 +138,14 @@ app.patch("/updateAny",async (req,res,next)=>{
     try{
         //creating an api level validations:
         const ALLOWED_UPDATES = ["photUrl","gender","firstName","lastName","about"];//maine define kardi ki kaun kaun si cheeje update karni hai
-        const isUpdateAllowed = Object.keys(updates).every((k)=>//fir updates mein unhi chijon ko update karo jo aalowed_updates mein hai
+        const isUpdateAllowed = Object.keys(updates).every((k)=>//fir updates mein unhi chijon ko update karo jo allowed_updates mein hai
         ALLOWED_UPDATES.includes(k)); 
 
         if(!isUpdateAllowed){
             throw new Error("Updates failed please change your fields!");
         }
     
-        await User.findByIdAndUpdate(id,updates,{new:true},{runValidators:true});
+        await User.findByIdAndUpdate({_id:id},updates,{new:true,runValidators:true});
         res.send("Updated successfully");
     }catch(err){
         res.status(401).send("Update is not possible and the err is "+err.message);

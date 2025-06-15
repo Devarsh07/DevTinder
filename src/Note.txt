@@ -69,4 +69,7 @@ but it make to run when we do any other query of dbms like find or findById etc 
 -kyunnki update to waise bhi ho jayega but jo conditions the field valid banane ke wo-
 -to sirf validators hi chla sakta hai ok.
 31)as we know humein kuch field change karne par rok lagani chahiye nhi to humaara db crash kar jayega or something bad will happen-
-- thats why we do API level validation like dont make a user to change its email once it was filled ok. lets see in app.js
+- thats why we do API level validation like dont make a user to change its email once it was filled ok. lets see in app.js.
+32)ek hi password ka hashing kai baar hota jab jab hum route hit karenge.
+33)suppose maine req.body se sirf kuchparticular fields hi save kara rha hoon to agar user or client req mein unessarry fields provide karega to wo fields directly ignored kardi jayengi.
+34) Never trust req.body
