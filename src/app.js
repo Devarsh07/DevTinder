@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const {adminAuth,userAuth}= require("./middlewares/auth");
+const {userAuth}= require("./middlewares/auth");
 const connectDB = require("./config/database");
 const User = require("./models/user");
 const {validateSignUpData} = require('./utils/validation');
@@ -24,19 +24,6 @@ connectDB()
     .catch((err)=>{
         console.log("MongoDB Connection ERror!");
     });
-
-// app.post("/signUp",async(req,res,next)=>{
-    
-//     //here req.body have a data in json format which was converted to js object by above middleware and it was pass by postman by post method
-//     const user = new User(req.body);//here the instance we have created named user is the new document with these fields.
-
-//     try{
-//         await user.save();
-//         res.send("Database Updated Successfully");    
-//     }catch(err){
-//         res.status(400).send("There is a problem in updating the database i.e "+ err.message);
-//     }
-// });
 
 app.post("/signUp",async(req,res,next)=>{
     const {firstName,lastName,email,password} = req.body;
@@ -95,34 +82,25 @@ app.post("/login",async(req,res,next)=>{
     }
 });
 
-app.get("/profile",async (req,res,next)=>{
+app.get("/profile",userAuth,async (req,res,next)=>{
     try{
-        const cookies = req.cookies;
-        const {token} = cookies;
-
-        if(!token){
-            throw new Error("Invalid Token");
-        }
-        let decodedmessage;
-        try{
-            const decodedmessage = await jwt.verify(token,"@DEV072003$");
-        }catch(err){
-            throw new Error("You are not verified user!");
-        }
-
-        const {id} = decodedmessage;
-    
-        const user = await User.findById(id);
-        const name = user.firstName;
-        console.log("Your Log In User Is: "+name);
-        if(!user){
-            throw new Error("Please go and agin login , u are not legal at this time!")
-        }
-        res.status(200).send(user);
+        const user = req.user;
+        const name = await user.firstName;
+        res.status(200).send("Welcome "+name+"!");
     }catch(err){
         res.status(400).send("Error: "+err.message);
     }
 });
+
+app.post("/sendConnectionRequest",userAuth,(req,res,next)=>{
+    try{
+        const user = req.user;
+        const {firstName,lastName} = user;
+        res.status(200).send("Connection is sent by "+firstName+" "+lastName+"!");
+    }catch(err){
+        res.status(400).send("Error: "+err.message);
+    }
+})
 
 app.get("/user",async (req,res,next)=>{
     const userEmail = req.body.email;//here extracting the email from req.body which are passing from postman
@@ -170,21 +148,23 @@ app.get("/byId",async(req,res,next)=>{
     
 });
 
-app.delete("/delete",async (req,res,next)=>{
-    const id = req.body._id;
+app.delete("/delete",userAuth,async(req,res,next)=>{
+    // const {id} = req.body;
     try{
-        const user = await User.findById(id);                   
+        const user = req.user;
         if(!user){
-            res.send("User of this id does not exist !");
+            throw new Error("User not found!");
         }
         else{
+            const id = user.id;
             await User.findByIdAndDelete(id);
-            res.send("User deleted successfully");
+            res.status(200).send("User Deletedd Successfully");
         }
     }catch(err){
-        res.status(401).send("Something Went Wrong i.e "+ err.message);
+        res.status(400).send("Error: "+err.message);
     }
-});
+})
+
 app.patch("/update",async (req,res,next)=>{
     const id = req.body.id;
     const data = req.body.firstName;
