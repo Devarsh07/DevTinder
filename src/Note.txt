@@ -74,3 +74,14 @@ but it make to run when we do any other query of dbms like find or findById etc 
 33)suppose maine req.body se sirf kuchparticular fields hi save kara rha hoon to agar user or client req mein unessarry fields provide karega to wo fields directly ignored kardi jayengi.
 34) Never trust req.body
 35)Never ever disclose the Information that the email is present in DB or not if either email or passsword any one them is wrong or undefined then directly says "Invalid credentials".
+36)Everytime when we hit an API call in the browser the connection is established between user and server by TCP protocol and when the response reach to the client or user then the connection is closed.
+- Every time the API call is made the server needs to the validate whether this user is authenticated or not.
+- So, basically we made the API call get the data , connection closed , and this connection is made through TCP/IP protocol.
+37)Whenever a user is login, server will create a Token attache it into a cookie and send back to the user in response , now this cookie is stored by the browser , any request-
+-which is sent back to the server, that cookie will send it along with every request after the login, we will validate it first then , user can go and do anything in site.     
+38)res.cookie("token", "ouuegf9927t1y02gg1%^$kjbjkbbf*&^&gguf555");
+This creates a cookie called "token" and sets its value to a random string (this would normally be a JWT token).
+The cookie is sent along with the response.
+The browser will now store this cookie, and send it automatically with future requests.     
+38)cookie-parser is a middleware for Express.js that helps your app read cookies sent by the browser in a request.like server easily send the token in with cookie in the response-
+- but for the authentication user must send the token with their requests So, that server can authenticate the user but this token is not recognize by server so , we use the middleware named cookie-parser.                                                                                                           

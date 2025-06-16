@@ -6,8 +6,11 @@ const User = require("./models/user");
 const {validateSignUpData} = require('./utils/validation');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
+const cookieParser = require('cookie-parser');
 
 app.use(express.json())//parsing the json data to js object
+
+app.use(cookieParser());//parsing the comming cookie from the user
 
 //since as we telling above that this function return promise so, we have to handled the value returned from promised function by then and catch
 connectDB()
@@ -71,10 +74,15 @@ app.post("/login",async(req,res,next)=>{
             throw new Error("User is not present in DB!");
         }
         const isPasswordValid = await bcrypt.compare(password,user.password);
-        console.log(password);
-        console.log(user.password);
-        
+
         if(isPasswordValid){
+
+            //jwt token creation:
+           
+
+            //add the token to cookie and send the response to the browser/user:
+           res.cookie("token","ouuegf9927t1y02gg1%^$kjbjkbbf*&^&gguf555");
+
             res.send("Login Successfully!");
         }
         else{
@@ -84,6 +92,12 @@ app.post("/login",async(req,res,next)=>{
         res.status(400).send("Error: "+err.message);
     }
 });
+
+app.get("/profile",(req,res,next)=>{
+    const cookies = req.cookies;
+    console.log(cookies);
+    console.log("Reading cookies send by user!");
+})
 
 app.get("/user",async (req,res,next)=>{
     const userEmail = req.body.email;//here extracting the email from req.body which are passing from postman
