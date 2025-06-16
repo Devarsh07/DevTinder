@@ -7,6 +7,7 @@ const {validateSignUpData} = require('./utils/validation');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const cookieParser = require('cookie-parser');
+const jwt = require("jsonwebtoken");
 
 app.use(express.json())//parsing the json data to js object
 
@@ -78,10 +79,11 @@ app.post("/login",async(req,res,next)=>{
         if(isPasswordValid){
 
             //jwt token creation:
-           
+            const _id = user._id;
+           const token = await jwt.sign({id:_id},"@DEV072003$");//sign in with jwt with the user id and giving the token a secret key:
 
             //add the token to cookie and send the response to the browser/user:
-           res.cookie("token","ouuegf9927t1y02gg1%^$kjbjkbbf*&^&gguf555");
+           res.cookie("token",token);//sending the token to the user or client or the browser
 
             res.send("Login Successfully!");
         }
@@ -93,11 +95,34 @@ app.post("/login",async(req,res,next)=>{
     }
 });
 
-app.get("/profile",(req,res,next)=>{
-    const cookies = req.cookies;
-    console.log(cookies);
-    console.log("Reading cookies send by user!");
-})
+app.get("/profile",async (req,res,next)=>{
+    try{
+        const cookies = req.cookies;
+        const {token} = cookies;
+
+        if(!token){
+            throw new Error("Invalid Token");
+        }
+        let decodedmessage;
+        try{
+            const decodedmessage = await jwt.verify(token,"@DEV072003$");
+        }catch(err){
+            throw new Error("You are not verified user!");
+        }
+
+        const {id} = decodedmessage;
+    
+        const user = await User.findById(id);
+        const name = user.firstName;
+        console.log("Your Log In User Is: "+name);
+        if(!user){
+            throw new Error("Please go and agin login , u are not legal at this time!")
+        }
+        res.status(200).send(user);
+    }catch(err){
+        res.status(400).send("Error: "+err.message);
+    }
+});
 
 app.get("/user",async (req,res,next)=>{
     const userEmail = req.body.email;//here extracting the email from req.body which are passing from postman

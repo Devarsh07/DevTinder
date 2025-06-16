@@ -85,3 +85,8 @@ The cookie is sent along with the response.
 The browser will now store this cookie, and send it automatically with future requests.     
 38)cookie-parser is a middleware for Express.js that helps your app read cookies sent by the browser in a request.like server easily send the token in with cookie in the response-
 - but for the authentication user must send the token with their requests So, that server can authenticate the user but this token is not recognize by server so , we use the middleware named cookie-parser.                                                                                                           
+39)const decodedmessage = await jwt.verify(token,"@DEV072003$"); By this line we verify the token by the secret key that was put at the time of token creation this secret key is very-
+-important all the hidden concept of token is based on this secret key.
+So, at the time of making of token we made our token by the help i=of user _id that is given in mongoDB and some man made secret key so ,by we verify the token by same secret key and -
+save the user _id in decodedmessage that will present in the token at the time of jwt.sign;
+40)Now , by this _id we verify our user and then let the user work on the website.
