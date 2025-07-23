@@ -1,6 +1,8 @@
 //requiring the mongoose library from mongoose
 const mongoose = require('mongoose');
 const validator  = require('validator');
+const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
 //creation of schema of collection i.e what are the type and what collection have i.e documemnts ok
 const userSchema = new mongoose.Schema({
     firstName : {
@@ -77,6 +79,25 @@ const userSchema = new mongoose.Schema({
         default:"You are the user for now!",
     }
 },{timestamps:true})
+
+userSchema.methods.getjwt = async function(){
+    const user = this;
+    console.log(user.firstName);
+    const token = await jwt.sign({_id:user._id},"DEV072003",{
+        expiresIn:"7d",
+    });
+    return token;
+}
+
+userSchema.methods.passwordVerify = async function(passwordInputByUser){
+    const user = this;
+    const hashPassword = user.password;
+    console.log(user.firstName);
+    const isPasswordValid = await bcrypt.compare(
+        passwordInputByUser,hashPassword
+    );
+    return isPasswordValid;
+};
 
 //creation of model of schema for creating multiple instance of that collection ok
 const User = mongoose.model("User",userSchema);

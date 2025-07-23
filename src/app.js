@@ -33,7 +33,7 @@ app.post("/signUp",async(req,res,next)=>{
         validateSignUpData(req);
 
         //encryption of password:
-        const passwordHash = await bcrypt.hash(password,10);//10 is the salting layer i.e it represent that how much layer of encription will be provided to my password:
+        const passwordHash = await bcrypt.hash(password,10);//10 is the salting layer i.e it represent that how much layer of encryption will be provided to my password:
 
         const user = new User({
             firstName,
@@ -61,13 +61,13 @@ app.post("/login",async(req,res,next)=>{
         if(!user){
             throw new Error("User is not present in DB!");
         }
-        const isPasswordValid = await bcrypt.compare(password,user.password);
+        const isPasswordValid = await user.passwordVerify(password);
 
         if(isPasswordValid){
 
             //jwt token creation:
             const _id = user._id;
-           const token = await jwt.sign({id:_id},"@DEV072003$");//sign in with jwt with the user id and giving the token a secret key:
+           const token = user.getjwt();//sign in with jwt with the user id and giving the token a secret key:
 
             //add the token to cookie and send the response to the browser/user:
            res.cookie("token",token);//sending the token to the user or client or the browser
