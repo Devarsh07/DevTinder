@@ -60,16 +60,26 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    gender:{
-        type:String,
-        validate:{
-            validator:function(value){
-                if(!["male","female","others"].includes(value)){
-                    throw new Error("Gender is not a valid!");
-                }
-            }
+    // gender:{
+    //     type:String,
+    //     validate:{
+    //         validator:function(value){
+    //             if(!["male","female","others"].includes(value)){
+    //                 throw new Error("Gender is not a valid!");
+    //             }
+    //         }
+    //     }
+    // },
+
+    gender: {
+        type: String,
+        // required:true,
+        enum: {
+            values: ["male", "female", "others"],
+            message: "Gender must be either 'male', 'female', or 'others'."
         }
     },
+
     photUrl:{
         type:String,
         default:"https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg",
@@ -80,12 +90,13 @@ const userSchema = new mongoose.Schema({
     }
 },{timestamps:true})
 
-userSchema.methods.getjwt = async function(){
+userSchema.methods.getjwt = function(){
     const user = this;
     console.log(user.firstName);
-    const token = await jwt.sign({_id:user._id},"DEV072003",{
+    const token = jwt.sign({_id:user._id},"@DEV072003$",{
         expiresIn:"7d",
     });
+    console.log(token);
     return token;
 }
 

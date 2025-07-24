@@ -70,7 +70,7 @@ app.post("/login",async(req,res,next)=>{
            const token = user.getjwt();//sign in with jwt with the user id and giving the token a secret key:
 
             //add the token to cookie and send the response to the browser/user:
-           res.cookie("token",token);//sending the token to the user or client or the browser
+            res.cookie("token",token);//sending the token to the user or client or the browser
 
             res.send("Login Successfully!");
         }
@@ -156,6 +156,7 @@ app.delete("/delete",userAuth,async(req,res,next)=>{
             throw new Error("User not found!");
         }
         else{
+            console.log("in delete api");
             const id = user.id;
             await User.findByIdAndDelete(id);
             res.status(200).send("User Deletedd Successfully");

@@ -94,3 +94,6 @@ save the user _id in decodedmessage that will present in the token at the time o
 - like classes have some methods and varibles and when we created the object of that class type then each object have those methods and variables seperately,
 similarily we define some helper methods in userschema ab, jaise koi documents is schema ka form kiya jayega ye helper methods bhi uske liye difine ho jayenge ,
 - bas humein inhe call karne ki jaroorat hogi. 
+42)What is enum isn Mongoose schema?->In Mongoose, the enum keyword is used to restrict a field’s value to a specific set of allowed values — like saying:
+
+"This field can only be one of these values."

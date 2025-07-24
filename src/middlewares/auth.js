@@ -15,9 +15,13 @@ const userAuth = async(req,res,next)=>{
             throw new Error("You are not verified user,please go and Login!");
         }
 
-        const {id} = decodedData;
+        const {_id} = decodedData;
 
-        const user = await User.findById(id);
+        console.log(_id);
+
+        const user = await User.findById(_id);
+
+        console.log(user);
 
         if(!user){
             throw new Error("You are not allowd to this , Please go and login!");
@@ -25,7 +29,7 @@ const userAuth = async(req,res,next)=>{
         else{
             const name = await user.firstName;
         }
-        req.user = user;
+        req.user = user;//saving user in reqest:
         next();
     }catch(err){
         res.status(400).send("Error: "+err.message);
