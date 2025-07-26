@@ -21,7 +21,7 @@ const userAuth = async(req,res,next)=>{
 
         const user = await User.findById(_id);
 
-        console.log(user);
+        // console.log(user);
 
         if(!user){
             throw new Error("You are not allowd to this , Please go and login!");

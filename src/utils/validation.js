@@ -15,5 +15,5 @@ const validateSignUpData = (req,res,next)=>{
 };
 
 module.exports = {
-    validateSignUpData,
+validateSignUpData
 };
