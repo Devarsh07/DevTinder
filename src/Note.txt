@@ -97,3 +97,30 @@ similarily we define some helper methods in userschema ab, jaise koi documents i
 42)What is enum isn Mongoose schema?->In Mongoose, the enum keyword is used to restrict a field’s value to a specific set of allowed values — like saying:
 
 "This field can only be one of these values."
+43) creating authRouter,profileRouter and requestRouter in routes folder
+44) import all these routers in app.js.
+45) what is the role of cookies?
+Answer)
+Cookies are just one way of storing and transmitting the token (especially in browsers). They help with:
+
+Auto-sending token with every request
+
+Setting expiration via maxAge or expires
+
+Optional security flags: httpOnly, secure, sameSite, etc.
+
+🔥 Without cookies (e.g., using localStorage or Authorization headers):
+The JWT token stays in storage (localStorage, sessionStorage, etc.)
+
+Even after it expires, it won’t get deleted automatically.
+
+❌ No browser mechanism deletes it on expiry.
+
+✅ You must manually check exp and delete it yourself (or redirect user to login).
+
+So yes — you can set a token’s "lifespan" using cookie expiration, but that only affects storage, not the token's actual validity.
+
+46)🔹 Haan, sahi kaha: Agar incoming data (body ya cookie) ko JS object mein convert nahi kiya gaya ho (via parsing), to JS ya Express usse read nahi kar payenge easily.
+Tum JSON bhejte ho Postman se, aur Express usko JavaScript object mein automatically convert kar deta hai using express.json().
+
+47)for the logout api just delete the token that will create after the login.
