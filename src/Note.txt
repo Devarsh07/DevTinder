@@ -124,3 +124,11 @@ So yes — you can set a token’s "lifespan" using cookie expiration, but that 
 Tum JSON bhejte ho Postman se, aur Express usko JavaScript object mein automatically convert kar deta hai using express.json().
 
 47)for the logout api just delete the token that will create after the login.
+
+48)Listen, when we create a validators in the schemas then , it must be write {runValidators:true} when we have to perform -
+- any query of mongoDB but when we write user.save() to save the data in database then the validators automatically called.
+For Example:  findByIdAndUpdate(id, updateData, { runValidators: true });
+
+49)Object.keys(req.body).forEach((keys)=>(logeInUser[keys] = req.body[keys]));
+above line ka matlab hai ki-->dekh jo req.body aarhi hai wo ek Js Object mein bankar aayegi aur us object ke har keys-
+par travel karna hai , so hum object i.e req.body ko pass karte hue uspar forEach loop lagayenge,and logedInUser ke har Keys ki value change kar denge req.body ke har keys ki value se.

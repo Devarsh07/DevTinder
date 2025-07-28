@@ -83,10 +83,18 @@ const userSchema = new mongoose.Schema({
     photUrl:{
         type:String,
         default:"https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg",
+        validate:{
+            validator:function(value){
+                return validator.isURL(value)
+            },
+            message:"Invalid Url",
+        },  
     },
     about:{
         type:String,
         default:"You are the user for now!",
+        maxlength:[100,"About must be less than 100 words!"],
+        trim:true,
     }
 },{timestamps:true})
 

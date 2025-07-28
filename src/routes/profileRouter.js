@@ -3,48 +3,37 @@ const profileRouter = express.Router();
 const {userAuth} = require('../middlewares/auth');
 const User = require('../models/user');
 const validator = require('validator');
+const {validateAllowedUpdates} = require('../utils/validation');
 
-profileRouter.get('/userProfile',userAuth,async (req,res)=>{
+profileRouter.get('/profile/view',userAuth,async (req,res)=>{
     try{
-        const {email} = req.body;//here extracting the email from req.body which are passing from postman
-        if(!validator.isEmail(email)){
-            throw new Error("Required email Is Invalid!");
+        const user = req.user;
+        if(!user){
+            throw new Error("user is not found!");
         }
         else{
-            console.log("iamhere");
-            const user = await User.find({email:email});// here we are  finding the same "userEmail" from the field name "email" in Model called User
-            if(!user){
-                throw new Error("there is an error to find the user!");
-            }
-            else{
-                console.log("aagya hoon");
-                res.send(user);
-            }
+            res.send(user);
         }
     }catch(err){
-        res.status(400).send("Error is : "+err.message);
+        res.status(400).send("Error : "+err.message);
     }
-})
+});
 
-//update anything yoou want :
-profileRouter.patch("/updateUser",async (req,res,next)=>{
-    const id = req.body._id;
-    const updates = req.body;
-    delete updates.id;
+profileRouter.patch("/profile/edit",userAuth,async (req,res)=>{
     try{
-        //creating an api level validations:
-        const ALLOWED_UPDATES = ["photUrl","gender","firstName","lastName","about"];//maine define kardi ki kaun kaun si cheeje update karni hai
-        const isUpdateAllowed = Object.keys(updates).every((k)=>//fir updates mein unhi chijon ko update karo jo allowed_updates mein hai
-        ALLOWED_UPDATES.includes(k)); 
-
-        if(!isUpdateAllowed){
-            throw new Error("Updates failed please change your fields!");
+        if(!validateAllowedUpdates(req)){
+            res.status(400).send("Invalid Edit Request!");
         }
-    
-        await User.findByIdAndUpdate({_id:id},updates,{new:true,runValidators:true});
-        res.send("Updated successfully");
+        
+        Object.keys(req.body).forEach((keys)=>(loggedInUser[keys] = req.body[keys]));
+        
+        console.log(loggedInUser);
+        await loggedInUser.save();
+        res.send(`${loggedInUser.firstName} your profile has been successfully updated`);
+
     }catch(err){
-        res.status(401).send("Update is not possible and the err is "+err.message);
+        res.status(400).send("Error is:"+err.message);
     }
 })
+
 module.exports = profileRouter;

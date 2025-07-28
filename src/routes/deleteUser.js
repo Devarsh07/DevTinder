@@ -3,7 +3,7 @@ const deleteUser = express.Router();
 const userAuth = require('../middlewares/auth');
 
 
-deleteUser.delete('/deleteUser',userAuth,(req,res=>{
+deleteUser.delete('/deleteProfile',userAuth,(req,res=>{
     try{
         const user = req.user;
         if(!user){
